@@ -1,0 +1,25 @@
+{
+  "name": "Lucid",
+  "displayName": "Lucid-Switch-Syntax-Highlighting",
+  "description": "Syntax highlighting for the programmable switch language, Lucid",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.72.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "lucid",
+      "aliases": ["Lucid", "lucid"],
+      "extensions": [".dpt"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "lucid",
+      "scopeName": "source.lucid",
+      "path": "./syntaxes/lucid.tmLanguage.json"
+    }]
+  }
+}
