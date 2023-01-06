@@ -9,6 +9,7 @@ patterns:
     -   include: "#declarations"
     -   include: "#variable-assignment"
     -   include: "#function-call"
+    -   include: "#expressions"
 repository:
     comments:
         patterns:
@@ -39,7 +40,36 @@ repository:
             -   include: "#types"
             -   include: "#modules"
             -   include: "#imports"
+            -   include: "#control-structs"
             -   include: "#variables"
+    control-structs:
+        patterns:
+            -   name: meta.controlstruct.ifstmt.lucid
+                begin: (?<=if)\s*?\(
+                end: (?=;|\{)
+                patterns:
+                    -   include: "#expressions"
+            -   name: meta.controlstruct.return.lucid
+                begin: (?<=return|generate)
+                end: (?=;)
+                patterns:
+                    -   include: "#expressions"
+            -   name: meta.controlstruct.forloop.lucid
+                begin: (?<=for)\s*?\(
+                end: (?=;|\{)
+                patterns:
+                    -   include: "#expressions"
+            -   name: meta.controlstruct.matchstmt.condition.lucid
+                begin: (?<=match)
+                end: (?=with)
+                patterns:
+                    -   include: "#expressions"
+            -   name: meta.controlstruct.matchstmt.branch.lucid
+                patterns:
+                    -   begin: (?<=\|)
+                        end: (?=\-\>)
+                        patterns:
+                            -   include: "#expressions"
     variables:
         patterns:
             -   include: "#variable-declare"
@@ -103,7 +133,7 @@ repository:
         patterns:
             -   name: meta.type.lucid
                 begin: ^\s*?(global)?\s+?(type)\s+?((?:[a-zA-Z0-9_]+)(?:<<[a-zA-Z0-9_,' ]+>>)?(?:\[[a-zA-Z0-9_']+\])?)
-                end: (?:;)|(?:\{)
+                end: (?:;)|(?=\{)
                 beginCaptures:
                     '1':
                         name: storage.modifier.type.lucid
@@ -170,7 +200,7 @@ repository:
             -   begin: \(
                 end: \)
                 patterns:
-                    -   match: \s*?((?:[a-zA-Z0-9_]+)(?:<<[a-zA-Z0-9_,' ]+>>)?(?:\[[a-zA-Z0-9_']+\])?)\s+?([a-zA-Z0-9_]+)\s*?
+                    -   match: \s*?((?:[a-zA-Z0-9_\.]+)(?:<<[a-zA-Z0-9_,' ]+>>)?(?:\[[a-zA-Z0-9_']+\])?)\s+?([a-zA-Z0-9_]+)\s*?
                         captures:
                             '1': 
                                 name: storage.type.lucid
@@ -184,7 +214,7 @@ repository:
                 end: (?:\])
                 patterns:
                     -   name: keyword.operator.comparison.lucid
-                        match: \b(<|>|<=|>=)\b
+                        match: \b(\<|\>|\<\=|\>\=)\b
                     -   name: constant.language.globalaccess.lucid
                         match: \b(start|end)\b
                     -   name: variable.other.global.lucid
@@ -192,7 +222,7 @@ repository:
     function-call:
         patterns:
             -   begin: \b(?:([a-zA-Z0-9_]+)\.)?([a-zA-Z0-9_]+)\s*?\(
-                end: (?=;)|(?=\{)|$
+                end: (?=;)|(?=\{)
                 captures:
                     '1':
                         name: entity.name.type.lucid
@@ -217,8 +247,9 @@ repository:
             -   include: "#comments"
             -   include: "#strings"
             -   include: "#built-ins"
+            -   include: "#keyword-control"
             -   begin: \b(?:([a-zA-Z0-9_]+)\.)?([a-zA-Z0-9_]+)\s*?\(
-                end: (?=;)
+                end: (?=;)|(?=\{)
                 captures:
                     '1':
                         name: entity.name.type.lucid
@@ -226,8 +257,30 @@ repository:
                         name: entity.name.function.lucid
                 patterns:
                     -   include: "#expressions"
-            -   name: constant.numeric.lucid
-                match: (?:[0-9]+)
+            -   name: meta.cast.lucid
+                match: (?:\(\s*?(int<<[a-zA-Z0-9_']+>>)\s*?\))
+                captures:
+                    '1':
+                        patterns:
+                            -   include: "#type-attr"
+            -   match: (?:(0b)([0-9\*]+))
+                captures:
+                    '1':
+                        name: storage.modifier.variable.lucid
+                    '2':
+                        patterns:
+                            -   name: constant.numeric.lucid
+                                match: (?:[0-9])
+                            -   name: storage.modifier.variable.lucid
+                                match: (?:\*)
+            -   match: (?:(0x)?([0-9]+))
+                captures:
+                    '1':
+                        name: storage.modifier.variable.lucid
+                    '2':
+                        name: constant.numeric.lucid
+            -   name: constant.language.size.lucid support.constant.size.lucid constant.other.size.lucid
+                match: (?:'(?:[a-zA-Z0-9_]+))
             -   name: constant.language.variable.lucid
                 match: \b([A-Z0-9_]+)\b
             -   name: variable.other.lucid
@@ -264,3 +317,22 @@ repository:
         patterns:
             -   name: variable.language.lucid
                 match: \b(self|this|recirculation_port|ingress_port|true|false)\b
+            -   match: \b(size_to_int|hash)\s*?(<<[a-zA-Z0-9_' ,]+>>)?\s*?(?=\()
+                captures:
+                    '1':
+                        name: support.function.lucid
+                    '2':
+                        patterns:
+                            -   include: "#type-parametric"
+            -   match: \b(printf)\s*?\(\s*?(\".*\")
+                captures:
+                    '1':
+                        name: support.function.lucid
+                    '2':
+                        name: string.quoted.double.lucid
+                        patterns:
+                            -   name: constant.character.escape.lucid
+                                match: \\.
+                            -   name: variable.other.interpolate.lucid
+                                match: (\%b|\%d)
+
