@@ -3,6 +3,13 @@
   "displayName": "Lucid DPT",
   "description": "VSCode support for the programmable switch language: Lucid DPT",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benherber/Lucid-DPT-VSCode-Extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/benherber/Lucid-DPT-VSCode-Extension/issues"
+  },
   "engines": {
     "vscode": "^1.72.0"
   },
