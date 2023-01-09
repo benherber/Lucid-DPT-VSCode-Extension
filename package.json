@@ -1,8 +1,8 @@
 {
-  "name": "Lucid",
-  "displayName": "Lucid-Switch-Syntax-Highlighting",
-  "description": "Syntax highlighting for the programmable switch language, Lucid",
-  "version": "0.0.1",
+  "name": "lucid-dpt",
+  "displayName": "Lucid DPT",
+  "description": "VSCode support for the programmable switch language: Lucid DPT",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.72.0"
   },
@@ -12,7 +12,7 @@
   "contributes": {
     "languages": [{
       "id": "lucid",
-      "aliases": ["Lucid", "lucid"],
+      "aliases": ["Lucid", "lucid", "LUCID"],
       "extensions": [".dpt"],
       "configuration": "./language-configuration.json"
     }],

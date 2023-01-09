@@ -383,9 +383,9 @@
     "events": {
       "patterns": [
         {
-          "name": "meta.function.lucid",
-          "begin": "^\\s*?(?:(entry|exit|entry\\s+?control)\\s+?)?(event)\\s+?([a-zA-Z0-9_]+)\\s*?(?=\\()",
-          "end": "(?=;)|(?=\\{)",
+          "name": "meta.type.event.lucid",
+          "begin": "(?:^\\s*?(?:(entry|exit|entry\\s+?control)\\s+?)?(event)\\s+?([a-zA-Z0-9_]+))",
+          "end": "(?=;|\\{|\\=)",
           "beginCaptures": {
             "1": {
               "name": "storage.modifier.event.lucid"
@@ -411,9 +411,9 @@
     "handlers": {
       "patterns": [
         {
-          "name": "meta.function.lucid",
-          "begin": "^\\s*?(handle|memop)\\s+?([a-zA-Z0-9_]+)\\s*?",
-          "end": "(?=;)|(?=\\{)",
+          "name": "meta.function.handler.lucid",
+          "begin": "(?:^\\s*?(handle|memop)\\s+?([a-zA-Z0-9_]+))",
+          "end": "(?=;|\\{|\\=)",
           "beginCaptures": {
             "1": {
               "name": "keyword.function.lucid"
@@ -437,7 +437,7 @@
       "patterns": [
         {
           "name": "meta.function.lucid",
-          "begin": "^\\s*?(fun|constr)\\s+?(?:(\\'[a-zA-Z0-9_]+)|((?:[a-zA-Z0-9_]+)(?:<<[a-zA-Z0-9_,' \\+\\-]+>>)?(?:\\[[a-zA-Z0-9_' \\+\\-]+\\])?))\\s+?([a-zA-Z0-9_]+)\\s*?",
+          "begin": "(?:^\\s*?(fun|constr)\\s+?(?:(\\'[a-zA-Z0-9_]+)|((?:[a-zA-Z0-9_]+)(?:<<[a-zA-Z0-9_,' \\+\\-]+>>)?(?:\\[[a-zA-Z0-9_' \\+\\-]+\\])?))\\s+?([a-zA-Z0-9_]+))",
           "end": "(?=;|\\{|\\=)",
           "beginCaptures": {
             "1": {
