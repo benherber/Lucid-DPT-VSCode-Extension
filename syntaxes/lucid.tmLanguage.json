@@ -42,9 +42,43 @@
     "block-comment": {
       "patterns": [
         {
+          "name": "comment.block.documentation.lucid",
+          "begin": "(?:/\\s*?\\*{2})",
+          "end": "(?:\\*{2}\\s*?/)",
+          "patterns": [
+            {
+              "begin": "(?:^\\s*?\\*?\\s*?(\\#))",
+              "end": "(?=$)",
+              "captures": {
+                "1": {
+                  "name": "markup.heading.2.doc.lucid"
+                }
+              },
+              "patterns": [
+                {
+                  "name": "markup.heading.2.doc.lucid",
+                  "match": "(?:([A-Za-z0-9 ])+)"
+                }
+              ]
+            },
+            {
+              "name": "markup.underline.doc.lucid",
+              "match": "(?:\\_([A-Za-z0-9 ])+\\_)"
+            },
+            {
+              "name": "markup.bold.doc.lucid",
+              "match": "(?:\\*\\*([A-Za-z0-9 ])+\\*\\*)"
+            },
+            {
+              "name": "markup.italic.doc.lucid",
+              "match": "(?:\\*([A-Za-z0-9 ])+\\*)"
+            }
+          ]
+        },
+        {
           "name": "comment.block.lucid",
-          "begin": "(/\\*)",
-          "end": "(\\*/)"
+          "begin": "(?:/\\s*?\\*)",
+          "end": "(?:\\*\\s*?/)"
         }
       ]
     },
@@ -52,19 +86,19 @@
       "patterns": [
         {
           "name": "comment.line.double-slash.lucid",
-          "begin": "(//)",
+          "begin": "(?://)",
           "end": "(?=$)"
         }
       ]
     },
     "strings": {
       "name": "string.quoted.double.lucid",
-      "begin": "\"",
-      "end": "\"",
+      "begin": "(?:\\\")",
+      "end": "(?:\\\")",
       "patterns": [
         {
           "name": "constant.character.escape.lucid",
-          "match": "\\\\."
+          "match": "(?:\\\\.)"
         }
       ]
     },
@@ -100,7 +134,7 @@
       "patterns": [
         {
           "name": "meta.controlstruct.ifstmt.lucid",
-          "begin": "(?<=if)\\s*?\\(",
+          "begin": "(?:(?<=if)\\s*?\\()",
           "end": "(?=;|\\{)",
           "patterns": [
             {
@@ -120,7 +154,7 @@
         },
         {
           "name": "meta.controlstruct.forloop.lucid",
-          "begin": "(?<=for)\\s*?\\(",
+          "begin": "(?:(?<=for)\\s*?\\()",
           "end": "(?=;|\\{)",
           "patterns": [
             {
@@ -164,7 +198,7 @@
     "variable-declare": {
       "patterns": [
         {
-          "match": "\\b((?:(?:global|extern|symbolic|const)\\s+?)*?)((?:[a-zA-Z0-9_]+)(?:(?:\\.[a-zA-Z0-9_]+)?(?:<<[a-zA-Z0-9_,' ]+>>)?(?:\\[[a-zA-Z0-9_']+\\])?)?)\\s+?([a-zA-Z0-9_]+)\\s*?(?:(?:;)|(?=\\=))",
+          "match": "\\b((?:(?:global|extern|symbolic|const)\\s+?)*?)((?:[a-zA-Z0-9_]+)(?:(?:\\.[a-zA-Z0-9_]+)?(?:<<[a-zA-Z0-9_,' \\+\\-]+>>)?(?:\\[[a-zA-Z0-9_' \\+\\-]+\\])?)?)\\s+?([a-zA-Z0-9_]+)\\s*?(?:(?:;)|(?=\\=))",
           "name": "meta.variable.def.typed",
           "captures": {
             "1": {
@@ -214,22 +248,6 @@
       "patterns": [
         {
           "name": "constant.numeric.lucid",
-          "match": "(?<=,|<<)\\s*?([0-9]+)\\s*?(?=,|>>)"
-        },
-        {
-          "name": "constant.language.size.lucid support.constant.size.lucid constant.other.size.lucid",
-          "match": "(?<=,|<<)\\s*?'([a-zA-Z0-9_]+)\\s*?(?=,|>>)"
-        },
-        {
-          "name": "variable.other.size.lucid",
-          "match": "(?<=,|<<)\\s*?([a-zA-Z0-9_]+)\\s*?(?=,|>>)"
-        }
-      ]
-    },
-    "type-parametric-list": {
-      "patterns": [
-        {
-          "name": "constant.numeric.lucid",
           "match": "(?:[0-9]+)"
         },
         {
@@ -246,13 +264,12 @@
       "patterns": [
         {
           "name": "meta.type.lucid",
-          "match": "([a-zA-Z0-9_]+(?:\\.[a-zA-Z0-9_]+)?)(<<[a-zA-Z0-9_' ,]+>>)?(?:\\[([a-zA-Z0-9_']+)\\])?",
+          "match": "([a-zA-Z0-9_]+(?:\\.[a-zA-Z0-9_]+)?)(?:<<([a-zA-Z0-9_' ,\\+\\-]+)>>)?(?:\\[([a-zA-Z0-9_' \\+\\-]+)\\])?",
           "captures": {
             "1": {
               "name": "entity.name.type.lucid"
             },
             "2": {
-              "name": "meta.type.lucid",
               "patterns": [
                 {
                   "include": "#type-parametric"
@@ -260,10 +277,9 @@
               ]
             },
             "3": {
-              "name": "meta.type.lucid",
               "patterns": [
                 {
-                  "include": "#type-parametric-list"
+                  "include": "#type-parametric"
                 }
               ]
             }
@@ -275,7 +291,7 @@
       "patterns": [
         {
           "name": "meta.type.alias.lucid",
-          "begin": "^\\s*?(global\\s+?)?(type)\\s+?((?:[a-zA-Z0-9_]+)(?:<<[a-zA-Z0-9_,' ]+>>)?(?:\\[[a-zA-Z0-9_']+\\])?)\\s*?(?:\\=)\\s*?(?:([a-zA-Z0-9_\\.]+)(<<[a-zA-Z0-9_,' ]+>>)?(\\[[a-zA-Z0-9_']+\\])?)\\s*?$",
+          "begin": "^\\s*?(global\\s+?)?(type)\\s+?((?:[a-zA-Z0-9_]+)(?:<<[a-zA-Z0-9_,' ]+>>)?(?:\\[[a-zA-Z0-9_']+\\])?)\\s*?(?:\\=)\\s*?(?:([a-zA-Z0-9_\\.]+)(<<[a-zA-Z0-9_,' \\+\\-]+>>)?(\\[[a-zA-Z0-9_' \\+\\-]+\\])?)\\s*?$",
           "end": "(?:\\n)",
           "captures": {
             "1": {
@@ -321,7 +337,7 @@
               "name": "meta.type.lucid",
               "patterns": [
                 {
-                  "include": "#type-parametric-list"
+                  "include": "#type-parametric"
                 }
               ]
             }
@@ -421,20 +437,23 @@
       "patterns": [
         {
           "name": "meta.function.lucid",
-          "begin": "^\\s*?(fun|constr)\\s+?((?:[a-zA-Z0-9_]+)(?:<<[a-zA-Z0-9_,' ]+>>)?(?:\\[[a-zA-Z0-9_']+\\])?)\\s+?([a-zA-Z0-9_]+)\\s*?",
+          "begin": "^\\s*?(fun|constr)\\s+?(?:(\\'[a-zA-Z0-9_]+)|((?:[a-zA-Z0-9_]+)(?:<<[a-zA-Z0-9_,' \\+\\-]+>>)?(?:\\[[a-zA-Z0-9_' \\+\\-]+\\])?))\\s+?([a-zA-Z0-9_]+)\\s*?",
           "end": "(?=;|\\{|\\=)",
           "beginCaptures": {
             "1": {
               "name": "keyword.function.lucid"
             },
             "2": {
+              "name": "constant.language.size.lucid support.constant.size.lucid constant.other.size.lucid"
+            },
+            "3": {
               "patterns": [
                 {
                   "include": "#type-attr"
                 }
               ]
             },
-            "3": {
+            "4": {
               "name": "entity.name.function.lucid"
             }
           },
@@ -456,17 +475,19 @@
           "end": "\\)",
           "patterns": [
             {
-              "match": "\\s*?((?:[a-zA-Z0-9_\\.]+)(?:<<[a-zA-Z0-9_,' ]+>>)?(?:\\[[a-zA-Z0-9_']+\\])?)\\s+?([a-zA-Z0-9_]+)\\s*?",
+              "match": "\\s*?(?:(\\'[a-zA-Z0-9_]+)|((?:[a-zA-Z0-9_\\.]+)(?:<<[a-zA-Z0-9_,' \\+\\-]+>>)?(?:\\[[a-zA-Z0-9_' \\+\\-]+\\])?))\\s+?([a-zA-Z0-9_]+)\\s*?",
               "captures": {
                 "1": {
-                  "name": "storage.type.lucid",
+                  "name": "constant.language.size.lucid support.constant.size.lucid constant.other.size.lucid"
+                },
+                "2": {
                   "patterns": [
                     {
                       "include": "#type-attr"
                     }
                   ]
                 },
-                "2": {
+                "3": {
                   "name": "variable.parameter.lucid"
                 }
               }
@@ -575,7 +596,7 @@
         },
         {
           "name": "meta.cast.lucid",
-          "match": "(?:\\(\\s*?(int<<[a-zA-Z0-9_']+>>)\\s*?\\))",
+          "match": "(?:\\(\\s*?(int<<[a-zA-Z0-9_' \\+\\-]+>>)\\s*?\\))",
           "captures": {
             "1": {
               "patterns": [
@@ -587,7 +608,11 @@
           }
         },
         {
-          "match": "(?:(0b)([0-9\\*]+))",
+          "match": "(?:(\\+|\\-|\\|\\+\\||\\|\\-\\||(?<!\\<)\\<(?!\\<)|(?<!\\>)\\>(?!\\>)|(?<!\\<)\\<\\=|(?<!\\>)\\>\\=|(?<!\\>)\\>\\>\\>(?!\\>)|(?<!\\<)\\<\\<\\<(?!\\<)|(?<!\\=)\\=\\=(?!\\=)|(?<!\\=)\\!\\=(?!\\=)|\\&\\&|\\&|\\~|\\^\\^|\\^|\\|\\||\\||\\#))",
+          "name": "keyword.operator.lucid"
+        },
+        {
+          "match": "(?:(0b)([0-1\\*]+))",
           "captures": {
             "1": {
               "name": "storage.modifier.variable.lucid"
@@ -596,7 +621,7 @@
               "patterns": [
                 {
                   "name": "constant.numeric.lucid",
-                  "match": "(?:[0-9])"
+                  "match": "(?:[0-1])"
                 },
                 {
                   "name": "storage.modifier.variable.lucid",
@@ -607,7 +632,7 @@
           }
         },
         {
-          "match": "(?:(0x)?([0-9]+))",
+          "match": "(?:(0x)([0-9A-Fa-f]+))",
           "captures": {
             "1": {
               "name": "storage.modifier.variable.lucid"
@@ -618,8 +643,12 @@
           }
         },
         {
+          "name": "constant.numeric.lucid",
+          "match": "(?:[0-9]+)"
+        },
+        {
           "name": "constant.language.size.lucid support.constant.size.lucid constant.other.size.lucid",
-          "match": "(?:'(?:[a-zA-Z0-9_]+))"
+          "match": "(?:\\'(?:[a-zA-Z0-9_]+))"
         },
         {
           "name": "constant.language.variable.lucid",
@@ -729,7 +758,7 @@
           "match": "\\b(self|this|recirculation_port|ingress_port|true|false)\\b"
         },
         {
-          "match": "\\b(size_to_int|hash)\\s*?(<<[a-zA-Z0-9_' ,]+>>)?\\s*?(?=\\()",
+          "match": "\\b(size_to_int|hash)\\s*?(<<[a-zA-Z0-9_' ,\\+\\-]+>>)?\\s*?(?=\\()",
           "captures": {
             "1": {
               "name": "support.function.lucid"
