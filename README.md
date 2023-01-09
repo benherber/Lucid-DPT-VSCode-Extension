@@ -33,6 +33,6 @@ Initial release.
 
 ## Contributing
 
-Please feel free to submit issues and PRs as well as make forks of your own, the language is still is a work in progress and so is this extension!
+Please feel free to submit issues and PRs as well as make forks of your own, the language is still is a work in progress and so is this extension! The syntax highlighting is defined in `lucid.tmLanguage.yml` and converted to the necessary JSON format using the [TextMate Languages Extension](https://marketplace.visualstudio.com/items?itemName=pedro-w.tmlanguage).
 
 **Enjoy!**
