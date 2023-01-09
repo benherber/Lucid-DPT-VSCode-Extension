@@ -7,7 +7,7 @@ This VSCode extension gives crude syntax highlighiting to the expirimental datap
 Running on your own machine:
 * Clone the repository
 * Navigate into the directory
-* Run the following command to install/update `code --install-extension lucid-dpt.vsix`
+* Run the following command to install/update: ```code --install-extension lucid-dpt.vsix```
 
 ## Requirements
 
@@ -15,7 +15,7 @@ None currently.
 
 ## Extension Settings
 
-None currently
+None currently.
 
 ## Known Issues
 
