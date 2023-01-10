@@ -5,8 +5,8 @@ This VSCode extension gives crude syntax highlighiting to the expirimental datap
 ## Requirements
 
 Running on your own machine:
-* Clone the repository
-* Navigate into the directory
+* Download the `.vsix` file from [Releases](https://github.com/benherber/Lucid-DPT-VSCode-Extension/releases) *OR* clone the repository and build by running: `vsce package`
+* Navigate into the directory containing `.vsix` file
 * Run the following command to install/update: ```code --install-extension lucid-dpt-<version>.vsix```
 
 ## Requirements
