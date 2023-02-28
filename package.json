@@ -21,7 +21,11 @@
       "id": "lucid",
       "aliases": ["Lucid", "lucid", "LUCID"],
       "extensions": [".dpt"],
-      "configuration": "./language-configuration.json"
+      "configuration": "./language-configuration.json",
+      "icon": {
+        "light": "./icons/LucidDPT-dark.svg",
+        "dark": "./icons/LucidDPT-light.svg"
+      }
     }],
     "grammars": [{
       "language": "lucid",
